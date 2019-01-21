@@ -1,0 +1,217 @@
+<html lang="en">
+	<head>
+		<meta charset=utf-8>
+		<title>Aggredex</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="icon" type="image/png" href="img/favicon.png" />
+		<link rel="stylesheet" href="css/core.css" />
+
+
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/three.min.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/Stats.js"></script>
+		<script src="js/OrbitControls.js"></script>
+		<script src="js/THREEx.KeyboardState.js"></script>
+		<script src="js/THREEx.FullScreen.js"></script>
+		<script src="js/THREEx.WindowResize.js"></script>
+		<script src="js/Tween.js"></script>
+
+
+		<script src="js/html-imports.min.js"></script>
+		<link rel="import" href="assets/test.html">
+
+
+		<script>
+		$(function(){
+			$("#ui").load("assets/ui/ui.html");
+		});
+		</script>
+
+
+
+
+	</head>
+	<body>
+		<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+		<div id="ui"></div>
+
+		<script>
+
+		// Standard global variables
+		var container;
+		var scene;
+		var camera;
+		var renderer;
+		var controls;
+		var stats;
+		var keyboard = new THREEx.KeyboardState();
+		var clock = new THREE.Clock();
+
+		// Custom global variables
+		var mesh;
+		var earth;
+		var luna;
+		var sol;
+		// Scale factor - All scale data is based on actual size in km, then divided by the factor set below
+		var S = 1024;
+		// Universe - the elegized diameter of the Universe
+		var U = 2.59224014949e+23;
+		// Sol System - the elegized diameter of the Sol System
+		var SOL = 1.49598e+13;
+
+		// Start
+		init();
+		animate();
+
+		// FUNCTIONS
+
+
+
+		function init()
+		{
+			// Sub Functions
+			// Create atmosphere
+			function atmo() {
+				var customMaterial = new THREE.ShaderMaterial(
+				{
+					uniforms:
+					{
+						"c":   { type: "f", value: inverse },
+						"p":   { type: "f", value: intensity },
+						glowColor: { type: "c", value: new THREE.Color(color) },
+						viewVector: { type: "v3", value: object.position }
+					},
+					vertexShader:   document.getElementById( 'vertexShader'   ).textContent,
+					fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+					side: THREE.FrontSide,
+					blending: THREE.AdditiveBlending,
+					transparent: true
+				}   );
+
+				this.objectGlow = new THREE.Mesh( sphereObject.clone(), customMaterial.clone() );
+				objectGlow.scale.multiplyScalar(scale);
+
+				// This is not an ideal way to set the objects position - Need to revise this later
+				var objectx = object.position.x;
+				var objecty = object.position.y;
+				var objectz = object.position.z;
+
+				objectGlow.position.set(objectx, objecty, objectz);
+				scene.add( objectGlow );
+			}
+
+
+			// SCENE
+			scene = new THREE.Scene();
+			// CAMERA
+			var SCREEN_WIDTH = window.innerWidth;
+			var SCREEN_HEIGHT = window.innerHeight;
+			var VIEW_ANGLE = 45;
+			var ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT;
+			var NEAR = 0.1 / S;
+			var FAR = U / S;
+			camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+			scene.add(camera);
+			camera.position.set(5000000 / S,10000,-20000);
+			camera.lookAt(scene.position);
+
+
+			// RENDERER
+			if ( Detector.webgl )
+				renderer = new THREE.WebGLRenderer( {antialias:true} );
+			else
+				renderer = new THREE.CanvasRenderer();
+			renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+			container = document.getElementById( 'ThreeJS' );
+			container.appendChild( renderer.domElement );
+
+			// EVENTS
+			THREEx.WindowResize(renderer, camera);
+			THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+
+			// CONTROLS
+			controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+
+			// STATS
+			//stats = new Stats();
+			//stats.domElement.style.position = 'absolute';
+			//stats.domElement.style.bottom = '0px';
+			//stats.domElement.style.zIndex = 100;
+			//container.appendChild( stats.domElement );
+
+			// LIGHT
+			var light = new THREE.PointLight(0xffffff, 1.5, 5906292480 / S);
+			light.position.set(0,0,0);
+			scene.add(light);
+
+
+			// SKYBOX
+
+			var imagePrefix = "img/sky/space_";
+			var directions  = ["xpos", "xneg", "ypos", "yneg", "zpos", "zneg"];
+			var imageSuffix = ".png";
+			var skyGeometry = new THREE.CubeGeometry( U / S, U / S, U / S );
+
+			var materialArray = [];
+			for (var i = 0; i < 6; i++)
+				materialArray.push( new THREE.MeshBasicMaterial({
+					map: THREE.ImageUtils.loadTexture( imagePrefix + directions[i] + imageSuffix ),
+					side: THREE.BackSide
+
+				}));
+			var skyMaterial = new THREE.MeshFaceMaterial( materialArray );
+			var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
+			scene.add( skyBox );
+
+
+			// Core
+
+			// Helpers
+			axes = new THREE.AxesHelper(SOL / S);
+			helper = new THREE.GridHelper(SOL / S, 10);
+			helper.setColors(0x0000ff, 0x808080);
+			scene.add(axes);
+			scene.add(helper);
+			helpers = 0
+
+			// Load 3D assets
+			$.getScript("assets/index.js", function() {
+				// Stars
+				stellarData();
+				// Planets and other planetary bodies
+				planetaryData();
+			});
+
+
+		}
+
+
+		function animate()
+		{
+			TWEEN.update();
+			requestAnimationFrame( animate );
+			render();
+			update();
+		}
+
+		function update()
+		{
+			// CONTROL RULES
+			$.getScript("assets/nav/index.js", function() {
+				// repeater keypress listener
+				keyData();
+			});
+
+			controls.update();
+		}
+
+		function render()
+		{
+			renderer.render( scene, camera );
+		}
+
+		</script>
+	</body>
+</html>

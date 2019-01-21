@@ -1,0 +1,30 @@
+.clickEarth {
+	width:auto;
+	height:20px;
+	border:1px solid red;
+	cursor:pointer;
+	color:black;
+	background-color:white;
+	float: left;
+	margin: 5px;
+}
+.clickLuna {
+	width:auto;
+	height:20px;
+	border:1px solid red;
+	cursor:pointer;
+	color:black;
+	background-color:white;
+	float: left;
+	margin: 5px;
+}
+.clickSol {
+	width:auto;
+	height:20px;
+	border:1px solid red;
+	cursor:pointer;
+	color:black;
+	background-color:white;
+	float: left;
+	margin: 5px;
+}

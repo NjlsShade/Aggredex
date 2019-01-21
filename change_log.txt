@@ -1,0 +1,2 @@
+Changed Light from 0,1,0 --> 0,0,0 [Not Tested]
+Look at KeyboardState.js https://stemkoski.github.io/Three.js/Keyboard.html
