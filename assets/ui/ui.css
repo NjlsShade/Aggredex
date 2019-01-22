@@ -28,3 +28,23 @@
 	float: left;
 	margin: 5px;
 }
+.clickMars {
+	width:auto;
+	height:20px;
+	border:1px solid red;
+	cursor:pointer;
+	color:black;
+	background-color:white;
+	float: left;
+	margin: 5px;
+}
+.clickNine {
+	width:auto;
+	height:20px;
+	border:1px solid red;
+	cursor:pointer;
+	color:black;
+	background-color:white;
+	float: left;
+	margin: 5px;
+}
