@@ -9,6 +9,13 @@ function loadEarth() {
 		earth.position.set(0, 0, 149598000 / S);
 		scene.add( earth );
 
+		// Label
+		var text = this._createTextLabel();
+		text.setHTML("Earth");
+		text.setParent(earth);
+		this.textlabels.push(text);
+		this.container.appendChild(text.element);
+
 		object = earth;
 		sphereObject = sphereEarth;
 		color = 0x00000f;
@@ -17,7 +24,7 @@ function loadEarth() {
 		intensity = 6;
 		atmo(object, sphereObject, color, scale, inverse, intensity);
 	});
-	
+
 	// Varibles
 	earthMass = 5.972e+24;
 
