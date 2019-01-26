@@ -18,6 +18,9 @@
 		<script src="js/Tween.js"></script>
 
 
+		<script src="js/CSS2DRenderer.js"></script>
+
+
 		<script src="js/html-imports.min.js"></script>
 		<link rel="import" href="assets/test.html">
 
@@ -53,6 +56,7 @@
 		var earth;
 		var luna;
 		var sol;
+		var labelRenderer
 		// Scale factor - All scale data is based on actual size in km, then divided by the factor set below
 		var S = 1024;
 		// Universe - the elegized diameter of the Universe
@@ -184,48 +188,19 @@
 				planetaryData();
 			});
 
-			//Lebal
-			_createTextLabel: function() {
-		    var div = document.createElement('div');
-		    div.className = 'text-label';
-		    div.style.position = 'absolute';
-		    div.style.width = 100;
-		    div.style.height = 100;
-		    div.innerHTML = "hi there!";
-		    div.style.top = -1000;
-		    div.style.left = -1000;
+			//Label
 
-		    var _this = this;
+			//This section needs to be fixed
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
 
-		    return {
-		      element: div,
-		      parent: false,
-		      position: new THREE.Vector3(0,0,0),
-		      setHTML: function(html) {
-		        this.element.innerHTML = html;
-		      },
-		      setParent: function(threejsobj) {
-		        this.parent = threejsobj;
-		      },
-		      updatePosition: function() {
-		        if(parent) {
-		          this.position.copy(this.parent.position);
-		        }
-
-		        var coords2d = this.get2DCoords(this.position, _this.camera);
-		        this.element.style.left = coords2d.x + 'px';
-		        this.element.style.top = coords2d.y + 'px';
-		      },
-		      get2DCoords: function(position, camera) {
-		        var vector = position.project(camera);
-		        vector.x = (vector.x + 1)/2 * window.innerWidth;
-		        vector.y = -(vector.y - 1)/2 * window.innerHeight;
-		        return vector;
-		      }
-		    };
-		  }
-
-
+			labelRenderer = new THREE.CSS2DRenderer();
+			labelRenderer.setSize( window.innerWidth, window.innerHeight );
+			labelRenderer.domElement.style.position = 'absolute';
+			labelRenderer.domElement.style.top = 0;
+			document.body.appendChild( labelRenderer.domElement );
 		}
 
 
@@ -235,6 +210,7 @@
 			requestAnimationFrame( animate );
 			render();
 			update();
+			labelRenderer.render( scene, camera );
 		}
 
 		function update()
@@ -252,6 +228,7 @@
 		{
 			renderer.render( scene, camera );
 		}
+
 
 		</script>
 	</body>

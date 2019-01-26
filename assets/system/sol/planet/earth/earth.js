@@ -10,11 +10,13 @@ function loadEarth() {
 		scene.add( earth );
 
 		// Label
-		var text = this._createTextLabel();
-		text.setHTML("Earth");
-		text.setParent(earth);
-		this.textlabels.push(text);
-		this.container.appendChild(text.element);
+		var earthDiv = document.createElement( 'div' );
+		earthDiv.className = 'label';
+		earthDiv.textContent = 'Earth';
+		earthDiv.style.marginTop = '-1em';
+		var earthLabel = new THREE.CSS2DObject( earthDiv );
+		earthLabel.position.set( 0, 149598000 / S, 0 );
+		earth.add( earthLabel );
 
 		object = earth;
 		sphereObject = sphereEarth;
