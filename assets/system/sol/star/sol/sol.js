@@ -10,6 +10,14 @@ function loadSol() {
 	scene.add( sol );
 
 
+	object = sol;
+	sphereObject = sphereSol;
+	color = 0x00000f;
+	scale = 1.5;
+	inverse = 0.8;
+	intensity = 0.5;
+	glow(object, sphereObject, color, scale, inverse, intensity);
+
 	// Varibles
 	solMass = 1.989e+30;
 

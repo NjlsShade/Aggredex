@@ -6,13 +6,21 @@ $.getScript({
 	// Load Shaders
 	loadShaders();
 });
+// Load Glow
+$.getScript({
+	url: "assets/system/sol/star/shaders/glow.js",
+	async: false
+}).done(function() {
+	// Load Shaders
+	loadGlowShaders();
+});
 
 
 
 
 // Load Stellar Data
 function stellarData() {
-	$.getScript("assets/system/sol/star/sol.js", function() {
+	$.getScript("assets/system/sol/star/sol/sol.js", function() {
 		loadSol();
 	});
 }

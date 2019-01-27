@@ -1,4 +1,4 @@
-function loadShaders() {
+function loadGlowShaders() {
 	vertexShader = `
 	uniform vec3 viewVector;
 	varying float intensity;
@@ -12,14 +12,14 @@ function loadShaders() {
 	fragmentShader = `
 	varying float intensity;
 	void main() {
-		vec3 glow = vec3(0, 1, 0) * intensity;
-		gl_FragColor = vec4( glow, 1.0 );
+		vec3 glow = vec3(1,0.6,0.4) * intensity;
+	    gl_FragColor = vec4( glow, 1.0 );
 	}
 	`;
 }
 console.log("Glow Shaders Loaded");
 
-function atmo() {
+function glow() {
 	var customMaterial = new THREE.ShaderMaterial(
 	{
 		uniforms:
@@ -27,7 +27,7 @@ function atmo() {
 			"c":   { type: "f", value: inverse },
 			"p":   { type: "f", value: intensity },
 			glowColor: { type: "c", value: new THREE.Color(color) },
-			viewVector: { type: "v3", value: object.position }
+			viewVector: { type: "v3", value: camera.position }
 		},
 		vertexShader,
 		fragmentShader,

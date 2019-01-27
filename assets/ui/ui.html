@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="assets/ui/ui.css" />
 
-<div class="clickEarth">Point to Earth</div>
-<div class="clickLuna">Point to Luna</div>
-<div class="clickMars">Point to Mars</div>
-<div class="clickNine">Point to Nine</div>
-<div class="clickSol">Point to Sol</div>
+<div id="menu">
+	<button id="earth" class="clickEarth">Earth</button>
+	<button id="luna" class="clickLuna">Luna</button>
+	<button id="mars" class="clickMars">Mars</button>
+	<button id="nine" class="clickNine">Nine</button>
+	<button id="sol" class="clickSol">Sol</button>
+</div>
 <script>
 $('.clickEarth').click(function () {
 	camEarth();

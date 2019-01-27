@@ -18,7 +18,8 @@
 		<script src="js/Tween.js"></script>
 
 
-		<script src="js/CSS2DRenderer.js"></script>
+		<!-- This is working -->
+		<script src="js/renderers/CSS3DRenderer.js"></script>
 
 
 		<script src="js/html-imports.min.js"></script>
@@ -72,15 +73,12 @@
 
 
 
-		function init()
-		{
+		function init() {
 			// Sub Functions
 			// Create atmosphere
 			function atmo() {
-				var customMaterial = new THREE.ShaderMaterial(
-				{
-					uniforms:
-					{
+				var customMaterial = new THREE.ShaderMaterial( {
+					uniforms: {
 						"c":   { type: "f", value: inverse },
 						"p":   { type: "f", value: intensity },
 						glowColor: { type: "c", value: new THREE.Color(color) },
@@ -122,13 +120,17 @@
 
 
 			// RENDERER
-			if ( Detector.webgl )
+			if ( Detector.webgl ) {
 				renderer = new THREE.WebGLRenderer( {antialias:true} );
-			else
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+			} else {
 				renderer = new THREE.CanvasRenderer();
-			renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-			container = document.getElementById( 'ThreeJS' );
-			container.appendChild( renderer.domElement );
+				renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+				container = document.getElementById( 'ThreeJS' );
+				container.appendChild( renderer.domElement );
+			}
 
 			// EVENTS
 			THREEx.WindowResize(renderer, camera);
@@ -188,20 +190,13 @@
 				planetaryData();
 			});
 
-			//Label
-
-			//This section needs to be fixed
-			renderer = new THREE.WebGLRenderer();
-			renderer.setPixelRatio( window.devicePixelRatio );
-			renderer.setSize( window.innerWidth, window.innerHeight );
-			document.body.appendChild( renderer.domElement );
-
-			labelRenderer = new THREE.CSS2DRenderer();
-			labelRenderer.setSize( window.innerWidth, window.innerHeight );
-			labelRenderer.domElement.style.position = 'absolute';
-			labelRenderer.domElement.style.top = 0;
-			document.body.appendChild( labelRenderer.domElement );
 		}
+
+		// CONTROL RULES
+		$.getScript("assets/nav/index.js", function() {
+			// repeater keypress listener
+			keyData();
+		});
 
 
 		function animate()
@@ -210,17 +205,10 @@
 			requestAnimationFrame( animate );
 			render();
 			update();
-			labelRenderer.render( scene, camera );
 		}
 
 		function update()
 		{
-			// CONTROL RULES
-			$.getScript("assets/nav/index.js", function() {
-				// repeater keypress listener
-				keyData();
-			});
-
 			controls.update();
 		}
 

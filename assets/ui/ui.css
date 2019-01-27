@@ -1,50 +1,38 @@
 .clickEarth {
-	width:auto;
-	height:20px;
-	border:1px solid red;
-	cursor:pointer;
-	color:black;
-	background-color:white;
-	float: left;
-	margin: 5px;
+
 }
 .clickLuna {
-	width:auto;
-	height:20px;
-	border:1px solid red;
-	cursor:pointer;
-	color:black;
-	background-color:white;
-	float: left;
-	margin: 5px;
+
 }
 .clickSol {
-	width:auto;
-	height:20px;
-	border:1px solid red;
-	cursor:pointer;
-	color:black;
-	background-color:white;
-	float: left;
-	margin: 5px;
+
 }
 .clickMars {
-	width:auto;
-	height:20px;
-	border:1px solid red;
-	cursor:pointer;
-	color:black;
-	background-color:white;
-	float: left;
-	margin: 5px;
+
 }
 .clickNine {
-	width:auto;
-	height:20px;
-	border:1px solid red;
-	cursor:pointer;
-	color:black;
-	background-color:white;
-	float: left;
-	margin: 5px;
+
+}
+
+#menu {
+	position: fixed;
+	bottom: 20px;
+	width: 100%;
+	text-align: center;
+}
+
+button {
+	color: rgba(15,255,255,0.75);
+	background: rgba(0,0,0,0.75);
+	outline: 1px solid rgba(15,255,255,0.75);
+	border: 0px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+button:hover {
+	background-color: rgba(255,255,255,0.25);
+}
+button:active {
+	color: #000000;
+	background-color: rgba(15,255,255,0.75);
 }

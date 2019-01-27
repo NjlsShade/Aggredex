@@ -10,14 +10,10 @@ function loadEarth() {
 		scene.add( earth );
 
 		// Label
-		var earthDiv = document.createElement( 'div' );
-		earthDiv.className = 'label';
-		earthDiv.textContent = 'Earth';
-		earthDiv.style.marginTop = '-1em';
-		var earthLabel = new THREE.CSS2DObject( earthDiv );
-		earthLabel.position.set( 0, 149598000 / S, 0 );
-		earth.add( earthLabel );
 
+
+
+		// Load atmo
 		object = earth;
 		sphereObject = sphereEarth;
 		color = 0x00000f;
