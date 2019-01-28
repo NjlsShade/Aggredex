@@ -18,7 +18,7 @@ function loadEarth() {
 		sphereObject = sphereEarth;
 		color = 0x00000f;
 		scale = 1.05;
-		inverse = 0.8;
+		inverse = 1;
 		intensity = 6;
 		atmo(object, sphereObject, color, scale, inverse, intensity);
 	});

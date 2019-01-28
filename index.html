@@ -57,53 +57,24 @@
 		var earth;
 		var luna;
 		var sol;
-		var labelRenderer
+		var labelRenderer;
 		// Scale factor - All scale data is based on actual size in km, then divided by the factor set below
 		var S = 1024;
-		// Universe - the elegized diameter of the Universe
+		// Universe - the alleged diameter of the Universe
 		var U = 2.59224014949e+23;
-		// Sol System - the elegized diameter of the Sol System
+		// BOSS - the alleged diameter of the BOSS Supercluster
+		var BOSS = 9.460730473e+21;
+		// Laniakea Supercluster - the alleged diameter of the Laniakea Supercluster
+		var LKA = 4.730365236e+21;
+		// Sol System - the alleged diameter of the Sol System
 		var SOL = 1.49598e+13;
 
 		// Start
 		init();
 		animate();
 
-		// FUNCTIONS
-
-
 
 		function init() {
-			// Sub Functions
-			// Create atmosphere
-			function atmo() {
-				var customMaterial = new THREE.ShaderMaterial( {
-					uniforms: {
-						"c":   { type: "f", value: inverse },
-						"p":   { type: "f", value: intensity },
-						glowColor: { type: "c", value: new THREE.Color(color) },
-						viewVector: { type: "v3", value: object.position }
-					},
-					vertexShader:   document.getElementById( 'vertexShader'   ).textContent,
-					fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
-					side: THREE.FrontSide,
-					blending: THREE.AdditiveBlending,
-					transparent: true
-				}   );
-
-				this.objectGlow = new THREE.Mesh( sphereObject.clone(), customMaterial.clone() );
-				objectGlow.scale.multiplyScalar(scale);
-
-				// This is not an ideal way to set the objects position - Need to revise this later
-				var objectx = object.position.x;
-				var objecty = object.position.y;
-				var objectz = object.position.z;
-
-				objectGlow.position.set(objectx, objecty, objectz);
-				scene.add( objectGlow );
-			}
-
-
 			// SCENE
 			scene = new THREE.Scene();
 			// CAMERA
@@ -125,6 +96,9 @@
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				document.body.appendChild( renderer.domElement );
+
+				renderer.shadowMapEnabled = true;
+				renderer.shadowMapType = THREE.PCFSoftShadowMap;
 			} else {
 				renderer = new THREE.CanvasRenderer();
 				renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -138,14 +112,6 @@
 
 			// CONTROLS
 			controls = new THREE.OrbitControls( camera, renderer.domElement );
-
-
-			// STATS
-			//stats = new Stats();
-			//stats.domElement.style.position = 'absolute';
-			//stats.domElement.style.bottom = '0px';
-			//stats.domElement.style.zIndex = 100;
-			//container.appendChild( stats.domElement );
 
 			// LIGHT
 			var light = new THREE.PointLight(0xffffff, 1.5, 5906292480 / S);
@@ -169,17 +135,20 @@
 				}));
 			var skyMaterial = new THREE.MeshFaceMaterial( materialArray );
 			var skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
-			scene.add( skyBox );
-
-
-			// Core
+			//scene.add( skyBox );
 
 			// Helpers
 			axes = new THREE.AxesHelper(SOL / S);
-			helper = new THREE.GridHelper(SOL / S, 10);
+			helper = new THREE.GridHelper(SOL / S, 10,0xFFFFFF,0x00FF00);
+			lec = new THREE.GridHelper(LKA / S, 10,0xFFFFFF,0x0000FF);
+			boss = new THREE.GridHelper(BOSS / S, 10,0xFFFFFF,0xFF0000);
+			uni = new THREE.GridHelper(U / S, 10,0xFFFFFF,0x6600cc);
 			helper.setColors(0x0000ff, 0x808080);
 			scene.add(axes);
 			scene.add(helper);
+			scene.add(lec);
+			scene.add(boss);
+			scene.add(uni);
 			helpers = 0
 
 			// Load 3D assets
@@ -216,7 +185,6 @@
 		{
 			renderer.render( scene, camera );
 		}
-
 
 		</script>
 	</body>

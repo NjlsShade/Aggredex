@@ -1,5 +1,5 @@
 function loadGlowShaders() {
-	vertexShader = `
+	vertexGlowShader = `
 	uniform vec3 viewVector;
 	varying float intensity;
 	void main() {
@@ -9,7 +9,7 @@ function loadGlowShaders() {
 	}
 	`;
 
-	fragmentShader = `
+	fragmentGlowShader = `
 	varying float intensity;
 	void main() {
 		vec3 glow = vec3(1,0.6,0.4) * intensity;
@@ -29,8 +29,8 @@ function glow() {
 			glowColor: { type: "c", value: new THREE.Color(color) },
 			viewVector: { type: "v3", value: camera.position }
 		},
-		vertexShader,
-		fragmentShader,
+		vertexGlowShader,
+		fragmentGlowShader,
 		side: THREE.FrontSide,
 		blending: THREE.AdditiveBlending,
 		transparent: true
