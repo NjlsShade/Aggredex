@@ -22,11 +22,6 @@ function loadEarth() {
 		intensity = 6;
 		atmo(object, sphereObject, color, scale, inverse, intensity);
 
-		// Clouds
-		text1 = THREE.ImageUtils.loadTexture( "cover.png" );
-		text2 = THREE.ImageUtils.loadTexture( "grass.jpg" );
-		scale = 1.02;
-		cloud(text1, text2, scale);
 	});
 
 	// Varibles
