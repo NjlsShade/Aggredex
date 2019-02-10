@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="assets/ui/ui.css" />
 
 <div id="menu">
+	<button id="venus" class="clickVenus">Venus</button>
 	<button id="earth" class="clickEarth">Earth</button>
 	<button id="luna" class="clickLuna">Luna</button>
 	<button id="mars" class="clickMars">Mars</button>
@@ -8,6 +9,9 @@
 	<button id="sol" class="clickSol">Sol</button>
 </div>
 <script>
+$('.clickVenus').click(function () {
+	camVenus();
+});
 $('.clickEarth').click(function () {
 	camEarth();
 });

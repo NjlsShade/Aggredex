@@ -2,7 +2,7 @@ function loadLuna() {
 	sphereLuna =  new THREE.SphereGeometry( 1737 / S, 32, 16 );
 
 	// Old Texture Loader
-	var lunaTexture = THREE.ImageUtils.loadTexture( 'assets/system/sol/moon/luna/img/luna.jpg' );
+	var lunaTexture = THREE.ImageUtils.loadTexture( 'assets/system/sol/moon/luna/img/8k_luna.jpg' );
 	var lunaMaterial = new THREE.MeshLambertMaterial( { map: lunaTexture } );
 	luna = new THREE.Mesh( sphereLuna.clone(), lunaMaterial );
 	luna.position.set(0, 0, 149982400 / S);

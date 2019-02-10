@@ -3,7 +3,7 @@ function loadNine() {
 
 	// New Texture Loader
 	var texloader = new THREE.TextureLoader();
-	texloader.load("img/nine.jpg", function(nineTexture) {
+	texloader.load("assets/system/sol/planet/nine/nine.jpg", function(nineTexture) {
 		var nineMaterial = new THREE.MeshLambertMaterial( { map: nineTexture } );
 		nine = new THREE.Mesh( sphereNine.clone(), nineMaterial );
 		nine.position.set(0, 0, 1.047e+11 / S);

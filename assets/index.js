@@ -27,6 +27,9 @@ function stellarData() {
 
 // Load Planetary Data
 function planetaryData() {
+	$.getScript("assets/system/sol/planet/venus/venus.js").done(function() {
+		loadVenus();
+	});
 	$.getScript("assets/system/sol/planet/earth/earth.js").done(function() {
 		loadEarth();
 	});

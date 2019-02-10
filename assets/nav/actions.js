@@ -1,3 +1,7 @@
+function camVenus() {
+	console.log("Venus");
+	controls.target.copy( venus.position );
+}
 function camEarth() {
 	console.log("Earth");
 	controls.target.copy( earth.position );
